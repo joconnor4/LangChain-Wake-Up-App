@@ -2,7 +2,7 @@
 
 > An AI-powered daily assistant that greets you each morning with local weather, top news, and your personalized task list — all in a single conversational interface.
 
-**Live demo:** _[Add your Hugging Face Spaces link here]_
+**Live demo:** (https://244158a590762470e7.gradio.live/)
 
 ---
 
