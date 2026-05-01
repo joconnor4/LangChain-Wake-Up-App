@@ -2,7 +2,7 @@
 
 > An AI-powered daily assistant that greets you each morning with local weather, top news, and your personalized task list — all in a single conversational interface.
 
-**Live demo:** (https://f1e7ecc4acb0135c85.gradio.live)
+**Live demo:** (https://huggingface.co/spaces/joconnor4/Morning_Briefing-Bot)
 
 ---
 
