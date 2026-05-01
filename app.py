@@ -291,10 +291,9 @@ demo = gr.ChatInterface(
         "Remove task 1",
         "Clear all my tasks",
     ],
-    retry_btn=None,
-    undo_btn=None,
 )
 
 if __name__ == "__main__":
     demo.launch()
+
     
