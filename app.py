@@ -293,12 +293,13 @@ with gr.Blocks(
     """)
 
     chatbot = gr.Chatbot(
-        label="",
-        height=480,
-        show_label=False,
-        elem_classes=["chat-message"],
-        placeholder="Ask for your morning briefing to get started!",
-    )
+    label="",
+    height=480,
+    show_label=False,
+    elem_classes=["chat-message"],
+    placeholder="Ask for your morning briefing to get started!",
+    type="messages",   # ← add this line
+)
 
     with gr.Row():
         msg_box = gr.Textbox(
@@ -326,11 +327,12 @@ with gr.Blocks(
         )
 
     def respond(message, history):
-        if not message.strip():
-            return history, ""
-        reply = chat(message, history)
-        history.append((message, reply))
+    if not message.strip():
         return history, ""
+    reply = chat(message, history)
+    history.append({"role": "user", "content": message})
+    history.append({"role": "assistant", "content": reply})
+    return history, ""
 
     send_btn.click(respond, [msg_box, chatbot], [chatbot, msg_box])
     msg_box.submit(respond, [msg_box, chatbot], [chatbot, msg_box])
