@@ -273,69 +273,28 @@ def chat(message: str, history: list) -> str:
 
 
 # ── Gradio UI ──────────────────────────────────────────────────────────────────
-with gr.Blocks(
+def respond(message, history):
+    """Wrapper for gr.ChatInterface — just return the reply string."""
+    return chat(message, history)
+
+demo = gr.ChatInterface(
+    fn=respond,
     title="☀️ Morning Briefing Bot",
-    theme=gr.themes.Soft(primary_hue="amber", neutral_hue="slate"),
-    css="""
-    .gradio-container { max-width: 800px !important; margin: auto; }
-    .chat-message { font-size: 15px; line-height: 1.6; }
-    footer { display: none !important; }
-    #title-row { text-align: center; padding: 1rem 0 0.5rem; }
-    #subtitle { color: #888; font-size: 14px; text-align: center; margin-bottom: 1rem; }
-    """
-) as demo:
-
-    gr.HTML("""
-    <div id="title-row">
-        <h1>☀️ Morning Briefing Bot</h1>
-    </div>
-    <p id="subtitle">Your AI-powered daily assistant — weather · news · tasks</p>
-    """)
-
-    chatbot = gr.Chatbot(
-    label="",
-    height=480,
-    show_label=False,
-    elem_classes=["chat-message"],
-    placeholder="Ask for your morning briefing to get started!",
-    type="messages",   # ← add this line
+    description="Your AI-powered daily assistant — weather · news · tasks",
+    examples=[
+        "Good morning! Give me my full briefing.",
+        "What's the weather in Spokane today?",
+        "Add task: review project proposal",
+        "Add task: call dentist at 2pm",
+        "Show my tasks",
+        "What's the latest news on AI?",
+        "Remove task 1",
+        "Clear all my tasks",
+    ],
+    retry_btn=None,
+    undo_btn=None,
 )
 
-    with gr.Row():
-        msg_box = gr.Textbox(
-            placeholder='Try: "Good morning!" or "Add task: call dentist" or "What\'s the weather?"',
-            show_label=False,
-            scale=5,
-            container=False,
-        )
-        send_btn = gr.Button("Send ➤", variant="primary", scale=1)
-
-    with gr.Row():
-        gr.Examples(
-            examples=[
-                "Good morning! Give me my full briefing.",
-                "What's the weather in Spokane today?",
-                "Add task: review project proposal",
-                "Add task: call dentist at 2pm",
-                "Show my tasks",
-                "What's the latest news on AI?",
-                "Remove task 1",
-                "Clear all my tasks",
-            ],
-            inputs=msg_box,
-            label="Quick examples",
-        )
-
-    def respond(message, history):
-    if not message.strip():
-        return history, ""
-    reply = chat(message, history)
-    history.append({"role": "user", "content": message})
-    history.append({"role": "assistant", "content": reply})
-    return history, ""
-
-    send_btn.click(respond, [msg_box, chatbot], [chatbot, msg_box])
-    msg_box.submit(respond, [msg_box, chatbot], [chatbot, msg_box])
-
 if __name__ == "__main__":
-    demo.launch(debug=True)
+    demo.launch()
+    
